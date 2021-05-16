@@ -25,10 +25,13 @@ export class PolTextField extends LitElement {
   `
 
   @property({ type: String })
-  label = ''
+  label: string = ''
 
   @property({ type: String })
-  placeholder = 'Please input'
+  placeholder: string = 'Please input'
+
+  @property({ type: String, reflect: true })
+  value: string = ''
 
   render() {
     return html`
@@ -39,6 +42,8 @@ export class PolTextField extends LitElement {
             type="text"
             class="input"
             placeholder="${this.placeholder}"
+            value="${this.value}"
+            @input="${(e: any) => this.value = e.target.value}"
           >
         </div>
       </div>
