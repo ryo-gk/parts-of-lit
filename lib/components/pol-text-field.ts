@@ -2,10 +2,14 @@ import { css, customElement, html, LitElement, property } from 'lit-element'
 
 @customElement('pol-text-field')
 export class PolTextField extends LitElement {
-  constructor() {
-    super()
-    this.handleInput()
-  }
+  @property({ type: String })
+  label: string = ''
+
+  @property({ type: String })
+  placeholder: string = 'Please input'
+
+  @property({ type: String, reflect: true })
+  value: string = ''
 
   static styles = css`
     .label {
@@ -24,15 +28,6 @@ export class PolTextField extends LitElement {
     }
   `
 
-  @property({ type: String })
-  label: string = ''
-
-  @property({ type: String })
-  placeholder: string = 'Please input'
-
-  @property({ type: String, reflect: true })
-  value: string = ''
-
   render() {
     return html`
       <div class="PolTextField">
@@ -43,16 +38,17 @@ export class PolTextField extends LitElement {
             class="input"
             placeholder="${this.placeholder}"
             value="${this.value}"
-            @input="${(e: any) => this.value = e.target.value}"
+            @input=${this.handleInput}
           >
         </div>
       </div>
     `
   }
-
-  handleInput() {
-    // TODO handle input event
-  }
-
   
+  handleInput(e: Event) {
+    if (!e) { return }
+    this.value = (e.target as HTMLInputElement).value
+    const event = new CustomEvent('val', { detail: { value: this.value } })
+    this.dispatchEvent(event)
+  }
 }
