@@ -48,7 +48,7 @@ export class PolTextField extends LitElement {
   handleInput(e: Event) {
     if (!e) { return }
     this.value = (e.target as HTMLInputElement).value
-    const event = new CustomEvent('val', { detail: { value: this.value } })
+    const event = new CustomEvent('on-input', { detail: { value: this.value } })
     this.dispatchEvent(event)
   }
 }
